@@ -2,6 +2,7 @@ package com.challenge.ecommarcechallangeapp.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.challenge.ecommarcechallangeapp.Activity.NavigationMenuActivity;
 import com.challenge.ecommarcechallangeapp.Fragment.HomeFragment;
 import com.challenge.ecommarcechallangeapp.Models.DepartmentsModel;
 import com.challenge.ecommarcechallangeapp.R;
@@ -56,11 +56,11 @@ public class DepartmentAdapter extends RecyclerView.Adapter<DepartmentAdapter.Vi
                 Toast.makeText(context, DepartmentModel.get(i).getName(), Toast.LENGTH_SHORT).show();
 
                 dept_id = DepartmentModel.get(i).getDepartment_id();
-                Fragment fragment = new HomeFragment();
                 AppCompatActivity appCompatActivity = (AppCompatActivity) v.getContext();
+                Fragment fragment = new HomeFragment();
                 appCompatActivity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.main_content, fragment)
+                        .replace(R.id.main_content,fragment)
                         .addToBackStack(null).commit();
 
 

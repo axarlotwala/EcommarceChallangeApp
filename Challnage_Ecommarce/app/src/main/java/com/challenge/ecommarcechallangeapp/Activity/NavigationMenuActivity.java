@@ -1,40 +1,31 @@
 package com.challenge.ecommarcechallangeapp.Activity;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
-
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
+
 
 import com.challenge.ecommarcechallangeapp.Adapter.DepartmentAdapter;
 import com.challenge.ecommarcechallangeapp.Fragment.HomeFragment;
-import com.challenge.ecommarcechallangeapp.Models.Department;
 import com.challenge.ecommarcechallangeapp.Models.DepartmentsModel;
 import com.challenge.ecommarcechallangeapp.R;
 import com.challenge.ecommarcechallangeapp.Retrofit.RetrfitClient;
 import com.challenge.ecommarcechallangeapp.Retrofit.RetrofitInterface;
-import com.challenge.ecommarcechallangeapp.Utlities.OpenHelper;
+
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,10 +67,10 @@ public class NavigationMenuActivity extends AppCompatActivity {
 
         toggle.syncState();
 
-        //Fragment fragment = new HomeFragment();
+        Fragment fragment = new HomeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_content,new HomeFragment()).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.main_content,fragment).addToBackStack(null).commit();
 
     }
 
@@ -111,7 +102,7 @@ public class NavigationMenuActivity extends AppCompatActivity {
         departmentAdapter = new DepartmentAdapter(NavigationMenuActivity.this,Department);
         department_list.setLayoutManager(linearLayoutManager);
         department_list.setAdapter(departmentAdapter);
-        department_list.addItemDecoration(new DividerItemDecoration(NavigationMenuActivity.this,DividerItemDecoration.VERTICAL));
+        department_list.addItemDecoration(new DividerItemDecoration(NavigationMenuActivity.this, DividerItemDecoration.VERTICAL));
         department_list.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener());
 
     }

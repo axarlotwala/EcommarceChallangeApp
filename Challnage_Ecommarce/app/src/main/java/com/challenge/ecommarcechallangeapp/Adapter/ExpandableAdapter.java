@@ -4,8 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.challenge.ecommarcechallangeapp.Models.Category;
-import com.challenge.ecommarcechallangeapp.Models.Department;
 import com.challenge.ecommarcechallangeapp.R;
 import com.challenge.ecommarcechallangeapp.ViewHolder.CategoryViewHolder;
 import com.challenge.ecommarcechallangeapp.ViewHolder.DepartmentViewHolder;
@@ -14,9 +12,9 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.List;
 
-public class ExpandableAdapter  extends ExpandableRecyclerViewAdapter<DepartmentViewHolder, CategoryViewHolder> {
+public class ExpandableAdapter {
 
-
+/*
     public ExpandableAdapter(List<? extends ExpandableGroup> groups) {
         super(groups);
     }
@@ -47,5 +45,5 @@ public class ExpandableAdapter  extends ExpandableRecyclerViewAdapter<Department
 
         final Department department = (Department) group;
         holder.setDept_title(department);
-    }
+    }*/
 }

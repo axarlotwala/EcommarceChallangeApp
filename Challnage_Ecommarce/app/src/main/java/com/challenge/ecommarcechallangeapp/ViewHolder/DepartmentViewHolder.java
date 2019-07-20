@@ -5,16 +5,14 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.challenge.ecommarcechallangeapp.Models.Department;
 import com.challenge.ecommarcechallangeapp.R;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
-public class DepartmentViewHolder extends GroupViewHolder {
+public class DepartmentViewHolder {
 
-    ImageView iv_item_expand;
+    /*ImageView iv_item_expand;
     TextView tv_dept_name;
 
 
@@ -56,5 +54,5 @@ public class DepartmentViewHolder extends GroupViewHolder {
         rotate.setFillAfter(true);
         iv_item_expand.setAnimation(rotate);
 
-    }
+    }*/
 }

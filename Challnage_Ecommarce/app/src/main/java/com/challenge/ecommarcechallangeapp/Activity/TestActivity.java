@@ -1,21 +1,21 @@
 package com.challenge.ecommarcechallangeapp.Activity;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+
 import com.challenge.ecommarcechallangeapp.Adapter.ExpandableAdapter;
-import com.challenge.ecommarcechallangeapp.Models.Category;
-import com.challenge.ecommarcechallangeapp.Models.Department;
 import com.challenge.ecommarcechallangeapp.R;
 
 import java.util.ArrayList;
 
 public class TestActivity extends AppCompatActivity {
 
-    RecyclerView  list_expandable_test;
+    RecyclerView list_expandable_test;
     ExpandableAdapter adapter;
 
     @Override
@@ -27,6 +27,7 @@ public class TestActivity extends AppCompatActivity {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TestActivity.this);
         list_expandable_test.setLayoutManager(linearLayoutManager);
+/*
 
         ArrayList<Department> departments  = new ArrayList<>();
 
@@ -58,6 +59,7 @@ public class TestActivity extends AppCompatActivity {
         adapter = new ExpandableAdapter(departments);
 
         list_expandable_test.setAdapter(adapter);
+*/
 
 
     }

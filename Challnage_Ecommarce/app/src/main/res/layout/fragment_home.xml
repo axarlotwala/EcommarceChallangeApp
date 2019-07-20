@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Fragment.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -16,19 +16,20 @@
             android:layout_height="wrap_content"
             android:visibility="gone">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_category"
+                    android:id="@+id/list_product"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-        </FrameLayout>
+                    android:layout_height="match_parent" />
 
+
+            </RelativeLayout>
+
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/frame_second"
@@ -36,19 +37,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/frame_first">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_product"
+                    android:id="@+id/mainRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-
-
+            </RelativeLayout>
         </FrameLayout>
+
     </RelativeLayout>
 </FrameLayout>
