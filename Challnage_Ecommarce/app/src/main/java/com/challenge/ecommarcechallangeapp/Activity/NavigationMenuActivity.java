@@ -17,12 +17,14 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 
-import com.challenge.ecommarcechallangeapp.Adapter.DepartmentAdapter;
+import com.challenge.ecommarcechallangeapp.Adapter.DeptAdapter;
 import com.challenge.ecommarcechallangeapp.Fragment.HomeFragment;
+import com.challenge.ecommarcechallangeapp.Models.CategoryModel;
 import com.challenge.ecommarcechallangeapp.Models.DepartmentsModel;
 import com.challenge.ecommarcechallangeapp.R;
-import com.challenge.ecommarcechallangeapp.Retrofit.RetrfitClient;
+import com.challenge.ecommarcechallangeapp.Retrofit.RetrofitClient;
 import com.challenge.ecommarcechallangeapp.Retrofit.RetrofitInterface;
+import com.challenge.ecommarcechallangeapp.Utlities.OpenHelper;
 
 
 import java.util.ArrayList;
@@ -34,12 +36,12 @@ import retrofit2.Response;
 
 public class NavigationMenuActivity extends AppCompatActivity {
 
-    public static RecyclerView department_list;
+    private RecyclerView deptList;
+
     public static DrawerLayout drawer;
-    public static LinearLayoutManager linearLayoutManager;
-     private DepartmentAdapter departmentAdapter;
     public static ActionBarDrawerToggle toggle;
     ArrayList<DepartmentsModel> departmentsModels;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +49,15 @@ public class NavigationMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation_menu);
 
 
-        department_list = findViewById(R.id.department_list);
+        deptList = findViewById(R.id.deptList);
         drawer = findViewById(R.id.drawer_layout);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        SetDepartment();
+        setDepartment();
+
 
         toggle = new ActionBarDrawerToggle(
                 this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,19 +77,25 @@ public class NavigationMenuActivity extends AppCompatActivity {
 
     }
 
+    private void setDepartment(){
 
-    private void SetDepartment() {
-
-        /*Department department = new Department();*/
-        RetrofitInterface retrofitInterface = RetrfitClient.getRetrofitClient().create(RetrofitInterface.class);
-
-        Call<ArrayList<DepartmentsModel>> call_dept_model = retrofitInterface.Department_Call();
-        call_dept_model.enqueue(new Callback<ArrayList<DepartmentsModel>>() {
+        departmentsModels = new ArrayList<>();
+        RetrofitInterface retrofitInterface = RetrofitClient.getRetrofitClient().create(RetrofitInterface.class);
+        Call<ArrayList<DepartmentsModel>> listCall = retrofitInterface.Department_Call();
+        listCall.enqueue(new Callback<ArrayList<DepartmentsModel>>() {
             @Override
             public void onResponse(Call<ArrayList<DepartmentsModel>> call, Response<ArrayList<DepartmentsModel>> response) {
 
-                DepartmentList(response.body());
-
+                if (response.body() != null){
+                    departmentsModels = response.body();
+                    if (departmentsModels != null){
+                        LinearLayoutManager manager = new LinearLayoutManager(NavigationMenuActivity.this);
+                        deptList.setLayoutManager(manager);
+                        DeptAdapter deptAdapter = new DeptAdapter(NavigationMenuActivity.this,departmentsModels);
+                        deptList.setAdapter(deptAdapter);
+                        deptList.addItemDecoration(new DividerItemDecoration(NavigationMenuActivity.this,DividerItemDecoration.VERTICAL));
+                    }
+                }
             }
 
             @Override
@@ -94,20 +103,8 @@ public class NavigationMenuActivity extends AppCompatActivity {
                 Toast.makeText(NavigationMenuActivity.this,t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void DepartmentList(ArrayList<DepartmentsModel> Department) {
-
-        linearLayoutManager  = new LinearLayoutManager(NavigationMenuActivity.this);
-        departmentAdapter = new DepartmentAdapter(NavigationMenuActivity.this,Department);
-        department_list.setLayoutManager(linearLayoutManager);
-        department_list.setAdapter(departmentAdapter);
-        department_list.addItemDecoration(new DividerItemDecoration(NavigationMenuActivity.this, DividerItemDecoration.VERTICAL));
-        department_list.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener());
 
     }
-
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

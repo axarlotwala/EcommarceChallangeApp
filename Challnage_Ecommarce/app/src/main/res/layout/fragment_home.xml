@@ -10,11 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <FrameLayout
+            android:id="@+id/frame_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+        </FrameLayout>
+
         <FrameLayout
             android:id="@+id/frame_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_below="@id/frame_category">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -31,23 +52,6 @@
 
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/frame_second"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frame_first">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/mainRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
-            </RelativeLayout>
-        </FrameLayout>
 
     </RelativeLayout>
 </FrameLayout>

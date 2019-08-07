@@ -14,25 +14,18 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.support.v4.app.Fragment;
 
-import com.challenge.ecommarcechallangeapp.Adapter.InCategoryProductAdapter;
+import com.challenge.ecommarcechallangeapp.Adapter.CategoryAdapter;
 import com.challenge.ecommarcechallangeapp.Models.CategoryModel;
-import com.challenge.ecommarcechallangeapp.Models.Data;
 import com.challenge.ecommarcechallangeapp.Models.ProductsModel;
 import com.challenge.ecommarcechallangeapp.Paging.ProductAdapter;
 import com.challenge.ecommarcechallangeapp.R;
-import com.challenge.ecommarcechallangeapp.ResponseModel.ProductInCategoryResponse;
 import com.challenge.ecommarcechallangeapp.ResponseModel.ProductResponse;
-import com.challenge.ecommarcechallangeapp.Retrofit.RetrfitClient;
+import com.challenge.ecommarcechallangeapp.Retrofit.RetrofitClient;
 import com.challenge.ecommarcechallangeapp.Retrofit.RetrofitInterface;
 import com.challenge.ecommarcechallangeapp.Utlities.OpenHelper;
-import com.google.gson.Gson;
+import com.challenge.ecommarcechallangeapp.Utlities.PassData;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,26 +35,25 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements PassData {
 
-    RecyclerView list_product, mainRecyclerView;
+    RecyclerView list_product,list_category ;
     ProductAdapter productAdapter;
-    FrameLayout frame_first, frame_second;
+    FrameLayout frame_first, frame_category;
+    PassData passData;
+    ArrayList<CategoryModel> categoryModels;
 
-    int dept_id, catId;
+
+    int dept_id;
+    String catName;
+
+
     private int PAGE_NUMBER = 1;
     private int ITEM_PER_PAGE = 11;
     private boolean isLoading = true;
     private int PAST_VISIBLE_ITEM, VISIBLE_ITEM_COUNT, TOTAL_ITEM_COUNT, PREVIOUS_TOTAL = 0;
     private int VIEW_THRESHOLD = 11;
 
-    ArrayList<CategoryModel> models;
-    ArrayList<ProductsModel> productsModels;
-    ArrayList<Data> dataArrayList;
-
-    String catName;
-
-    Data data = new Data();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,28 +66,29 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         list_product = view.findViewById(R.id.list_product);
-        mainRecyclerView = view.findViewById(R.id.mainRecyclerView);
+        list_category = view.findViewById(R.id.list_category);
         frame_first = view.findViewById(R.id.frame_first);
-        frame_second = view.findViewById(R.id.frame_second);
+        frame_category = view.findViewById(R.id.frame_category);
+        passData = this;
 
+        setBundle();
         SetProducts();
-        getBundles();
 
         return view;
     }
 
-    /*get Department Id Wise Show Category*/
-    private void getBundles() {
+    /*set Bundle*/
+    private void setBundle(){
+
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             //frame_first.setVisibility(View.VISIBLE);
             dept_id = bundle.getInt(OpenHelper.DEPT_ID);
-            Log.e("getBun_id", "SetCategory: " + dept_id);
+            Log.e("getBun_id", "SetCategory: " + ""+dept_id);
         }
         setCategory(dept_id);
-        //setInitRecyclerView(dept_id);
     }
-
 
     /*Set Default All Product From Server*/
     private void SetProducts() {
@@ -103,8 +96,7 @@ public class HomeFragment extends Fragment {
         list_product.setLayoutManager(linearLayoutManager);
         list_product.setHasFixedSize(true);
 
-        RetrofitInterface retrofitInterface = RetrfitClient.getRetrofitClient().create(RetrofitInterface.class);
-
+        RetrofitInterface retrofitInterface = RetrofitClient.getRetrofitClient().create(RetrofitInterface.class);
         Call<ProductResponse> productResponseCall = retrofitInterface.PRODUCT_MODELS_CALL(PAGE_NUMBER, ITEM_PER_PAGE);
 
         productResponseCall.enqueue(new Callback<ProductResponse>() {
@@ -153,7 +145,7 @@ public class HomeFragment extends Fragment {
     /*Set  Pagination using Recyclview AddOn Scroll Listner Interface*/
     private void setPagination() {
 
-        RetrofitInterface retrofitInterface = RetrfitClient.getRetrofitClient().create(RetrofitInterface.class);
+        RetrofitInterface retrofitInterface = RetrofitClient.getRetrofitClient().create(RetrofitInterface.class);
         Call<ProductResponse> productResponseCall = retrofitInterface.PRODUCT_MODELS_CALL(PAGE_NUMBER, ITEM_PER_PAGE);
 
         productResponseCall.enqueue(new Callback<ProductResponse>() {
@@ -176,20 +168,24 @@ public class HomeFragment extends Fragment {
 
     /*set Catgeory  Api if get department ID*/
     private void setCategory(int dept_id) {
-        models = new ArrayList<>();
-        RetrofitInterface retrofitInterface = RetrfitClient.getRetrofitClient().create(RetrofitInterface.class);
+
+        categoryModels  = new ArrayList<>();
+        RetrofitInterface retrofitInterface = RetrofitClient.getRetrofitClient().create(RetrofitInterface.class);
         Call<ArrayList<CategoryModel>> arrayListCall = retrofitInterface.Category_Call(dept_id);
         arrayListCall.enqueue(new Callback<ArrayList<CategoryModel>>() {
             @Override
             public void onResponse(Call<ArrayList<CategoryModel>> call, Response<ArrayList<CategoryModel>> response) {
 
-                models = response.body();
-                for (int i = 0; i < models.size(); i++) {
-                    catId = models.get(i).getCategory_id();
-                    catName = models.get(i).getName();
-                    setCategoryProduct(catId, models,catName);
+                categoryModels = response.body();
+                if (categoryModels != null){
+                    frame_category.setVisibility(View.VISIBLE);
+                    LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+                    list_category.setLayoutManager(manager);
+
+                    CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(),categoryModels,passData);
+                    list_category.setAdapter(categoryAdapter);
+
                 }
-                //Log.d("ModelsSize", "" + models.size());
             }
 
             @Override
@@ -200,58 +196,18 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    /*get category wise product From Server*/
-    private void setCategoryProduct(final int catId, final ArrayList<CategoryModel> categoryModels, final String catName) {
+    @Override
+    public void setCatId(int catId) {
 
-        Log.d("getSingleCat", "" + catId);
+        /*get category id and set Product Category wise*/
 
-        productsModels = new ArrayList<>();
-        RetrofitInterface anInterface = RetrfitClient.getRetrofitClient().create(RetrofitInterface.class);
-        Call<ProductInCategoryResponse> inCategoryResponseCall = anInterface.IN_CATEGORY_RESPONSE_CALL(catId, 1);
-        inCategoryResponseCall.enqueue(new Callback<ProductInCategoryResponse>() {
-            @Override
-            public void onResponse(Call<ProductInCategoryResponse> call, Response<ProductInCategoryResponse> response) {
+        if (catId != 0){
 
-                productsModels = response.body().getRows();
-                Log.d("productCat", "" + productsModels.size());
+            RetrofitInterface retrofitInterface = RetrofitClient.getRetrofitClient().create(RetrofitInterface.class);
+        }
 
-                data.setCategoryName(catName);
-                data.setProductsModels(productsModels);
-
-                dataArrayList = new ArrayList<>();
-
-                HashMap<String,ArrayList<ProductsModel>> listHashMap = new HashMap<String, ArrayList<ProductsModel>>();
-                for (int j=0;j<categoryModels.size();j++){
-                    //listHashMap.put(,productsModels.get(j).getName())
-                    listHashMap.put(categoryModels.get(j).getName(), productsModels);
-                    dataArrayList.add(data);
-                    Log.d("ListMap",""+listHashMap.put(categoryModels.get(j).getName(),productsModels));
-                }
-
-               // Log.d("CatName",""+catName);
-
-                /*Gson gson  = new Gson();
-                String pList = gson.toJson(productsModels);*/
-
-
-                LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-                mainRecyclerView.setLayoutManager(manager);
-
-                InCategoryProductAdapter inCategoryProductAdapter = new InCategoryProductAdapter(getActivity(), dataArrayList);
-                mainRecyclerView.setAdapter(inCategoryProductAdapter);
-
-                /*
-                Log.d("DataArray", "" + dataArrayList.size());
-                Log.d("GetCat", "" + data.getCategoryName());*/
-                // Log.d("DataList",""+dataArrayList.get(i).getCategoryName() + " :"+ dataArrayList.get(i).getProductsModels());
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductInCategoryResponse> call, Throwable t) {
-
-                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
+
+
+
 }

@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/linear_dept">
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/relativeDept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
 
     <TextView
-        android:id="@+id/tv_depte"
+        android:id="@+id/tv_deptName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Department"
-        android:padding="@dimen/_5sdp"
-        android:textColor="@color/color_white"
-        android:layout_margin="@dimen/_10sdp"/>
+        android:padding="@dimen/_8sdp"
+        android:layout_margin="@dimen/_8sdp"
+        android:textColor="@color/color_white"/>
 
-</LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

@@ -15,7 +15,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.TestActivity" />
         <activity
             android:name=".Activity.NavigationMenuActivity"
             android:theme="@style/AppTheme.NoActionBar">

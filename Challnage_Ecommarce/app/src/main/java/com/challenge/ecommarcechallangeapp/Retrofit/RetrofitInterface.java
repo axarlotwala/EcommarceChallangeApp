@@ -4,6 +4,7 @@ import com.challenge.ecommarcechallangeapp.Models.CategoryModel;
 import com.challenge.ecommarcechallangeapp.Models.DepartmentsModel;
 import com.challenge.ecommarcechallangeapp.ResponseModel.ProductInCategoryResponse;
 import com.challenge.ecommarcechallangeapp.ResponseModel.ProductResponse;
+import com.challenge.ecommarcechallangeapp.ResponseModel.SingleProductResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +37,9 @@ public interface RetrofitInterface {
     Call<ProductInCategoryResponse> IN_CATEGORY_RESPONSE_CALL(
             @Path("category_id") int catId,
             @Query("page") int page);
+
+    @GET("products/{product_id}")
+    Call<SingleProductResponse> SINGLE_PRODUCT_RESPONSE_CALL(@Path("product_id") int product_id);
 
 
 

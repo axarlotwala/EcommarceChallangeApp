@@ -1,9 +1,16 @@
 package com.challenge.ecommarcechallangeapp.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DepartmentsModel {
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DepartmentsModel  {
 
     @Expose
     @SerializedName("description")
@@ -15,6 +22,8 @@ public class DepartmentsModel {
     @SerializedName("department_id")
     private int department_id;
 
+    public DepartmentsModel() {
+    }
 
     public String getDescription() {
         return description;

@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Activity.MainActivity">
 
    <ImageView
+       android:id="@+id/imgBlue"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" />
+
+
+
+   <TextView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:src="@drawable/ic_bags"
-       android:layout_gravity="center"/>
+       android:padding="@dimen/_25ssp"
+       android:text="@string/splash_title"
+       android:gravity="center_horizontal"
+       android:textSize="@dimen/_25ssp"
+       android:textColor="@color/colorPrimary"/>
 
-</LinearLayout>
+
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:src="@drawable/images_red_shirt"
+       android:layout_centerInParent="true" />
+
+</RelativeLayout>

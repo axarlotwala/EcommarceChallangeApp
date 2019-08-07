@@ -1,9 +1,12 @@
 package com.challenge.ecommarcechallangeapp.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CategoryModel {
+public class CategoryModel  {
 
 
     @Expose
@@ -18,6 +21,9 @@ public class CategoryModel {
     @Expose
     @SerializedName("category_id")
     private int category_id;
+
+    public CategoryModel() {
+    }
 
     public int getDepartment_id() {
         return department_id;
@@ -50,4 +56,5 @@ public class CategoryModel {
     public void setCategory_id(int category_id) {
         this.category_id = category_id;
     }
+
 }
